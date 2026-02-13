@@ -134,6 +134,5 @@ void descifrarMensaje() {
 }
 
 // PREGUNTA: En la implementación se una matriz auxiliar de dimensiones ren × col para realizar la transposición. 
-// Si tuvieras una restricción de memoria severa y no pudieras crear esa matriz bidimensional, 
-// ¿qué fórmula matemática utilizarías para imprimir el carácter correcto directamente desde el arreglo original texto[] ?
+// Si tuvieras una restricción de memoria severa y no pudieras crear esa matriz bidimensional, ¿qué fórmula matemática utilizarías para imprimir el carácter correcto directamente desde el arreglo original texto[] ?
 //Cifrado: i*col + j y Descifrado: j*ren + i 
