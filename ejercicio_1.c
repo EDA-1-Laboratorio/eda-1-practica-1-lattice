@@ -33,8 +33,10 @@ int main() {
     return 0;
 }
 
+// Función para crear un mensaje cifrado
+
 void crearMensaje() {
-    int ren, col, i, j, k = 0;
+    int ren, col, i, j, k = 0; 
 
     printf("\n--- CIFRADO ---\n");
     printf("Ingresar el tamaño de la escítala (Renglones): ");
@@ -43,7 +45,7 @@ void crearMensaje() {
     scanf("%d", &col);
 
     char escitala[ren][col];
-    char texto[ren * col]; // Arreglo lineal para el texto original
+    char texto[ren * col + 1]; // Arreglo lineal para el texto original // +1 para el carácter nulo y evitar overflow***
 
     printf("Escriba el texto a cifrar (sin espacios): ");
     scanf("%s", texto);
@@ -56,6 +58,12 @@ void crearMensaje() {
        Tip: Necesitas recorrer renglones y luego columnas. */
        
     // ... (Tu código aquí) ...
+     for (i = 0; i < ren; i++) {
+        for (j = 0; j < col; j++) {
+            escitala[i][j] = texto[k++];
+            //  k avanza para tomar el siguiente carácter del texto original en cada iteración
+        }
+    }
 
 
     printf("El texto cifrado (leído de la tira) es:\n");
@@ -67,6 +75,11 @@ void crearMensaje() {
        Tip: Ahora el bucle externo debe controlar las columnas y el interno los renglones. */
 
     // ... (Tu código aquí) ...
+        for (j = 0; j < col; j++) { 
+            for (i = 0; i < ren; i++) { 
+                printf("%c", escitala[i][j]); 
+            }
+        }
     
     printf("\n");
 }
@@ -95,7 +108,13 @@ void descifrarMensaje() {
        Debes llenar columna por columna usando el 'texto' cifrado. */
 
     // ... (Tu código aquí) ...
-
+    
+        for (j = 0; j < col; j++) { 
+            for (i = 0; i < ren; i++) { 
+                escitala[i][j] = texto[k++];
+                // k avanza para tomar el siguiente carácter del texto cifrado en cada iteración
+            }
+        }
 
     printf("El texto descifrado es:\n");
 
@@ -105,10 +124,22 @@ void descifrarMensaje() {
     /* TODO: Escribe aquí los bucles para imprimir el mensaje original. */
 
     // ... (Tu código aquí) ...
+        for (i = 0; i < ren; i++) { 
+            for (j = 0; j < col; j++) { 
+                printf("%c", escitala[i][j]); 
+            }
+        }
 
     printf("\n");
 }
-
 // PREGUNTA: En la implementación se una matriz auxiliar de dimensiones ren × col para realizar la transposición. 
-// Si tuvieras una restricción de memoria severa y no pudieras crear esa matriz bidimensional, 
-// ¿qué fórmula matemática utilizarías para imprimir el carácter correcto directamente desde el arreglo original texto[] ?
+// Si tuvieras una restricción de memoria severa y no pudieras crear esa matriz bidimensional, ¿qué fórmula matemática utilizarías para imprimir el carácter correcto directamente desde el arreglo original texto[] ?
+//Cifrado: i*col + j y Descifrado: j*ren + i 
+//En la implementación de una matriz auxiliar de dimensiones ren × col para realizar la transposición. 
+//Si tuvieras una restricción de memoria severa y no pudieras crear esa matriz bidimensional, 
+//¿qué fórmula matemática utilizarías para imprimir el carácter correcto directamente desde el arreglo original texto [ ] ?
+//Con un arreglo lineal, para hacer directo la operacion.
+//Cifrado: i*col + j
+//Descifrado: j*ren + i
+
+

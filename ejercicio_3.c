@@ -22,11 +22,14 @@ void inicializarMundo() {
     mundo[3][1] = 1;
     mundo[3][2] = 1;
     mundo[3][3] = 1;
+    mundo[5][5] = 1; // Célula aislada para probar reglas de soledad
+    mundo[5][6] = 1; // Célula vecina para probar reglas de estabilidad y reproducción
+    mundo[5][7] = 1; // Célula vecina para probar reglas de estabilidad y reproducción  
 }
 
 void imprimirMundo() {
     // Limpia la consola
-    // system("clear"); // O system("cls") en Windows
+    system("cls"); // Para Windows
     
     printf("\nEstado Actual:\n");
     for (int i = 0; i < FILAS; i++) {
@@ -51,7 +54,21 @@ int contarVecinos(int f, int c) {
     //       ... si no es la propia celda (f,c) y está viva, vecinos++ ...
     //    }
     // }
-    
+    for (int i = f - 1; i <= f + 1; i++) {
+        for (int j = c - 1; j <= c + 1; j++) {
+
+            // 1. Ignorar si se sale del tablero
+            if (i < 0 || i >= FILAS) continue;
+            if (j < 0 || j >= COLS)  continue;
+
+            // 2. Ignorar la propia celda
+            if (i == f && j == c)    continue;
+
+            // 3. Contar si está viva
+            vecinos += mundo[i][j];
+        }
+    }
+
     return vecinos;
 }
 
@@ -75,7 +92,12 @@ void siguienteGeneracion() {
             } else {
                 // REGLA 4: Reproducción (exactamente 3 vecinos) -> Nace
                 
+                if (vecinos == 3) {
                 // TODO: Completar la lógica para células muertas
+                    siguiente_mundo[i][j] = 1;
+                } else {
+                    siguiente_mundo[i][j] = 0;
+                }
             }
         }
     }
@@ -95,10 +117,11 @@ int main() {
     for(int k=0; k<iteraciones; k++) {
         imprimirMundo();
         siguienteGeneracion();
-        // sleep(1); // Pausa para ver la animación
+        sleep(1); // Pausa para ver la animación
     }
 
     return 0;
 }
 
 // PREGUNTA: ¿Por qué es obligatoria la matriz siguiente_mundo? ¿Qué pasaría si actualizamos directamente sobre mundo?
+// Si actualizamos directamente sobre 'mundo', estaríamos modificando el estado de las células mientras aún estamos contando vecinos para otras células. Esto causaría que el resultado sea incorrecto, ya que algunas células podrían cambiar su estado antes de que se cuenten sus vecinos, afectando así la lógica de las reglas de Conway. La matriz 'siguiente_mundo' nos permite calcular la próxima generación sin alterar el estado actual hasta que hayamos terminado de procesar todas las células.
